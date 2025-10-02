@@ -1,0 +1,9 @@
+# Ignore config file 
+config.cfg
+
+# Ignore all the data in the data folder
+data/
+
+# Ignore python cache files 
+__pycache__/
+*.pyc 

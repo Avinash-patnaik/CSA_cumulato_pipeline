@@ -1,0 +1,15 @@
+ftp_pipeline/
+│── main.py
+│── config.py
+│── modules/
+│   │── downloader.py
+│   │── extractor.py
+│   │── organizer.py
+│   │── merger.py
+│   │── uploader.py
+│── data/
+│   │── downloads/
+│   │── extracted/
+│   │── file1/
+│   │── file2/
+│   │── merged/
