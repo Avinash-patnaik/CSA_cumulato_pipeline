@@ -1,11 +1,11 @@
 import sys
-from modules.downloader import FOLDownloader
+from modules.downloader import Foldownloader
 
 def main():
     print("========== CSA Cumulato Pipeline ==========")
     try:
         # Initialize downloader
-        downloader = FOLDownloader(config_file="config.cfg")
+        downloader = Foldownloader(config_file="config.cfg")
 
         # Step 1: Download FOL zip + md5 files
         downloader.download_files()
