@@ -13,13 +13,13 @@ class Foldownloader:
         if not read_files:
             raise FileNotFoundError(f"Config file not found: {config_file}")
 
-        # WinSCP + FTP config
+        # WinSCP 
         self.winscp_exe_path    = cfg.get('FTP', 'winscp_exe_path').strip('"')
         self.winscp_script_path = cfg.get('FTP', 'winscp_script_path').strip('"')
         self.ftp_host           = cfg.get('FTP', 'ftp_host').strip('"')
         self.ftp_port           = cfg.get('FTP', 'ftp_port').strip('"')
         self.ftp_username       = cfg.get('FTP', 'ftp_username').strip('"')
-        self.ftp_password       = cfg.get('FTP', 'ftp_password').strip('"')  # sensitive
+        self.ftp_password       = cfg.get('FTP', 'ftp_password').strip('"')  
         self.host_key           = cfg.get('FTP', 'host_key').strip('"')
 
         # Remote directories
