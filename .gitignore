@@ -11,3 +11,4 @@ __pycache__/
 # Ignore log files
 *.log
 winscp_log.txt
+winscp_script.txt
