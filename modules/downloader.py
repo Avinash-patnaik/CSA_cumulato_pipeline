@@ -26,7 +26,7 @@ class Foldownloader:
         self.remote_directory_fol       = cfg.get('FTP', 'remote_directory_fol').strip('"')
         self.remote_directory_indicator = cfg.get('FTP', 'remote_directory_indicator').strip('"')
 
-        # Local daily folder: data/FOL/YYYYMMDD
+        # Local daily folder in the date format
         today_str = datetime.now().strftime('%Y%m%d')
         self.local_directory = os.path.join("data", "FOL", today_str)
         os.makedirs(self.local_directory, exist_ok=True)
