@@ -1,6 +1,9 @@
 cumulative_fol/
 │── main.py
 │── config.py
+│── .gitignore
+│── winscp_log.txt
+│── winscp__script.txt
 │── modules/
 │   │── downloader.py
 │   │── extractor.py
