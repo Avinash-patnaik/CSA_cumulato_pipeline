@@ -2,135 +2,104 @@ import subprocess
 import os
 import time
 import configparser
-import re
 from datetime import datetime
 
-class Foldownloader:
+class FOLDownloader:
     def __init__(self, config_file="config.cfg", max_retries: int = 2, retry_delay: int = 5):
-        # Load config
+        # Load configuration
         cfg = configparser.ConfigParser()
-        read_files = cfg.read(config_file)
-        if not read_files:
+        if not cfg.read(config_file):
             raise FileNotFoundError(f"Config file not found: {config_file}")
 
-        # WinSCP 
+        # FTP credentials and paths
         self.winscp_exe_path    = cfg.get('FTP', 'winscp_exe_path').strip('"')
         self.winscp_script_path = cfg.get('FTP', 'winscp_script_path').strip('"')
         self.ftp_host           = cfg.get('FTP', 'ftp_host').strip('"')
         self.ftp_port           = cfg.get('FTP', 'ftp_port').strip('"')
         self.ftp_username       = cfg.get('FTP', 'ftp_username').strip('"')
-        self.ftp_password       = cfg.get('FTP', 'ftp_password').strip('"')  
-        self.host_key           = cfg.get('FTP', 'host_key').strip('"')
+        self.ftp_password       = cfg.get('FTP', 'ftp_password').strip('"')
 
         # Remote directories
         self.remote_directory_fol       = cfg.get('FTP', 'remote_directory_fol').strip('"')
         self.remote_directory_indicator = cfg.get('FTP', 'remote_directory_indicator').strip('"')
 
-        # Local daily folder in the date format
+        # Create today's folder for downloads
         today_str = datetime.now().strftime('%Y%m%d')
+        self.today_str = today_str
         self.local_directory = os.path.join("data", "FOL", today_str)
         os.makedirs(self.local_directory, exist_ok=True)
 
         # Retry config
-        self.max_retries = int(max_retries)
-        self.retry_delay = int(retry_delay)
+        self.max_retries = max_retries
+        self.retry_delay = retry_delay
 
-        # Quick status
-        print(f"[Downloader] Initialized.")
-        print(f"  Local directory: {self.local_directory}")
-        print(f"  Remote FOL dir : {self.remote_directory_fol}")
-        print(f"  Remote IND dir : {self.remote_directory_indicator}")
-        print(f"  Host (port)    : {self.ftp_host}:{self.ftp_port}")
-        print("  NOTE: config.cfg must be in .gitignore to avoid leaking credentials.")
+        print(f"[FOLDownloader] Initialized.")
+        print(f"  Local dir  : {self.local_directory}")
+        print(f"  FTP server : {self.ftp_host}:{self.ftp_port}")
+        print(f"  Remote FOL : {self.remote_directory_fol}")
+        print(f"  Remote IND : {self.remote_directory_indicator}")
 
     def download_files(self):
-        """Download FOL files (*.zip and *.md5) from FOL remote folder."""
-        patterns = ["*.zip", "*.md5"]
-        print("[Downloader] Starting download of FOL files...")
+        """Download main FOL files (today’s .zip and .md5)"""
+        patterns = [f"{self.today_str}*.zip", f"{self.today_str}*.md5"]
+        print("[FOLDownloader] Downloading FOL main files...")
         return self._download_from_remote(patterns, self.remote_directory_fol, "FOL main files")
 
     def download_indicator_files(self):
-        """Download indicator files from indicator remote folder."""
-        patterns = ["indicatori-sintetici-di-qualita-*", "indicatori-sintetici-di-qualita-capi-*"]
-        print("[Downloader] Starting download of indicator files...")
+        """Download indicator files for today."""
+        patterns = [
+            f"indicatori-sintetici-di-qualita-{self.today_str}*",
+            f"indicatori-sintetici-di-qualita-capi-{self.today_str}*"
+        ]
+        print("[FOLDownloader] Downloading indicator files...")
         return self._download_from_remote(patterns, self.remote_directory_indicator, "Indicator files")
 
     def _download_from_remote(self, patterns, remote_directory, description="files"):
         """
-        Create and run WinSCP script to download `patterns` from `remote_directory`.
-        Uses authentication via ftp://username:password@host:port and get -resume to avoid re-downloads.
+        Creates and executes a WinSCP script to download matching files.
         """
-        # Build URL with credentials (be aware this exposes credentials in the script file & logs)
-        host_with_port = f"{self.ftp_host}:{self.ftp_port}"
-        ftp_url = f'ftp://{self.ftp_username}:{self.ftp_password}@{host_with_port}'
+        ftp_url = f'ftp://{self.ftp_username}:{self.ftp_password}@{self.ftp_host}:{self.ftp_port}'
 
-        # Build script lines
+        # Build script dynamically
         script_lines = [
             "option batch abort",
             "option confirm off",
-            # open with credentials; hostkey is added for security if available
-            f'open "{ftp_url}" -hostkey="{self.host_key}"',
+            f'open "{ftp_url}"',
             f'lcd "{self.local_directory}"',
             f'cd "{remote_directory}"'
         ]
-        # Use -resume flag for get to resume partial files and skip fully downloaded files
-        for p in patterns:
-            # get -resume "pattern"
-            script_lines.append(f'get -resume "{p}"')
+        for pattern in patterns:
+            script_lines.append(f'get -resume "{pattern}"')
+
         script_lines.extend(["close", "exit"])
 
-        # Write script to configured path
-        script_path = self.winscp_script_path
-        with open(script_path, 'w', encoding='utf-8') as fh:
-            fh.write("\n".join(script_lines))
-        print(f"[Downloader] WinSCP script written ({description}): {script_path}")
+        # Write temporary script
+        with open(self.winscp_script_path, "w", encoding="utf-8") as f:
+            f.write("\n".join(script_lines))
 
-        # Command to run WinSCP
+        print(f"[FOLDownloader] Script written to {self.winscp_script_path}")
+
+        # Command to execute
         cmd = [
             self.winscp_exe_path,
-            f'/script={script_path}',
+            f'/script={self.winscp_script_path}',
             '/log=winscp_log.txt',
             '/ini=nul',
             '/quiet'
         ]
 
-        # Retry loop
-        attempt = 0
-        while attempt <= self.max_retries:
+        # Retry mechanism
+        for attempt in range(1, self.max_retries + 1):
             try:
-                attempt += 1
-                print(f"[Downloader] Running WinSCP (attempt {attempt}) for {description}...")
+                print(f"[FOLDownloader] Attempt {attempt} - running WinSCP for {description}...")
                 subprocess.run(cmd, check=True)
-                print(f"[Downloader] WinSCP finished for {description}.")
-                # Post-process: remove numeric timestamp prefix from downloaded filenames
-                self._clean_filenames()
+                print(f"[FOLDownloader] {description} downloaded successfully.")
                 return True
             except subprocess.CalledProcessError as e:
-                print(f"[Downloader] WinSCP error on attempt {attempt}: {e}")
-                if attempt > self.max_retries:
-                    print("[Downloader] Max retries reached — failing.")
+                print(f"[FOLDownloader] Error on attempt {attempt}: {e}")
+                if attempt == self.max_retries:
                     raise
-                print(f"[Downloader] Retrying after {self.retry_delay}s...")
+                print(f"[FOLDownloader] Retrying in {self.retry_delay}s...")
                 time.sleep(self.retry_delay)
-            except Exception as e:
-                print(f"[Downloader] Unexpected error on attempt {attempt}: {e}")
-                raise
 
-    def _clean_filenames(self):
-        """Remove leading timestamp digits and optional underscore from filenames in local_directory."""
-        renamed = 0
-        for fname in os.listdir(self.local_directory):
-            old_path = os.path.join(self.local_directory, fname)
-            if not os.path.isfile(old_path):
-                continue
-            # pattern: leading digits (timestamp) optionally followed by underscore; keep remainder
-            new_fname = re.sub(r'^\d+_?', '', fname)
-            new_path = os.path.join(self.local_directory, new_fname)
-            # Avoid overwriting: if new_path exists, skip rename and leave original (you can adjust this behavior)
-            if old_path != new_path and not os.path.exists(new_path):
-                os.rename(old_path, new_path)
-                print(f"[Downloader] Renamed '{fname}' -> '{new_fname}'")
-                renamed += 1
-            elif old_path != new_path and os.path.exists(new_path):
-                print(f"[Downloader] Skipped renaming '{fname}' because '{new_fname}' already exists.")
-        print(f"[Downloader] Filename cleaning done. Total renamed: {renamed}")
+        return False
