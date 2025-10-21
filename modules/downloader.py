@@ -58,7 +58,7 @@ class FOLDownloader:
         """
         Creates and executes a WinSCP script to download matching files.
         """
-        ftp_url = f'ftp://{self.ftp_username}:{self.ftp_password}@{self.ftp_host}:{self.ftp_port}'
+        ftp_url = f'sftp://{self.ftp_username}:{self.ftp_password}@{self.ftp_host}:{self.ftp_port}'
 
         # Build script dynamically
         script_lines = [
