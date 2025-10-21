@@ -65,12 +65,12 @@ class FOLDownloader:
         script_lines = [
             "option batch abort",
             "option confirm off",
-            f'open {ftp_url}',                # Open SFTP connection
-            f'lcd "{self.local_directory}"',  # Local folder
-            f'cd "{remote_directory}"'        # Remote folder
+            f'open {ftp_url}',                
+            f'lcd "{self.local_directory}"',  
+            f'cd "{remote_directory}"'        
         ]
         for pattern in patterns:
-            script_lines.append(f'get -resume "{pattern}"')  # Download matching files
+            script_lines.append(f'get -resume "{pattern}"')  
         script_lines.extend(["close", "exit"])
 
         # Write script file
