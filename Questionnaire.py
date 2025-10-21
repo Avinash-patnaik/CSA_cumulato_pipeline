@@ -5,7 +5,7 @@ import sys
 
 
 # File paths
-input_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\questionnaire\FOLCAPI\settembre2025"
+input_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\questionnaire\FOLCATI\aprile2025"
 output_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\cumulative output"
 
 
