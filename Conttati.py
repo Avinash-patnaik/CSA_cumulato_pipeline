@@ -4,7 +4,7 @@ from datetime import datetime
 import sys
 
 # file paths 
-input_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\conttati\FOLCAPI\settembre2025"
+input_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\conttati\FOLCATI\aprile2025"
 output_file = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\cumulative output"
 
 # Get today date for the output 
