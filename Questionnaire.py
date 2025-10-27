@@ -5,14 +5,14 @@ import sys
 
 
 # File paths
-input_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\questionnaire\FOLCATI\aprile2025"
+input_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\questionnaire\FOLCATI\bimestre12"
 output_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\cumulative output\FOLCATI"
 
 
 date_str = datetime.today().strftime("%Y%m%d")
 
 # Output filename
-output_file = os.path.join(output_folder, f"CUMULATO_DATICAPIRFL_{date_str}.csv")
+output_file = os.path.join(output_folder, f"CUMULATO_DATIRFL_BIMESTRE12_{date_str}.csv")
 
 # List all CSV files
 file_list = [os.path.join(input_folder, f) for f in os.listdir(input_folder) if f.endswith('.csv')]
