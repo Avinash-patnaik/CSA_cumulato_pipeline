@@ -5,7 +5,7 @@ import sys
 # Define paths
 # ------------------------
 input_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\conttati\FOLCATI\bimestre12"
-output_file = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\cumulative output\cumulato.csv"
+output_file = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\cumulative output\cumulato.csv"
 
 # List all CSV files
 file_list = [f for f in os.listdir(input_folder) if f.endswith('.csv')]
