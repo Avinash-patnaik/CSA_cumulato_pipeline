@@ -11,7 +11,7 @@ output_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\cumu
 date_str = datetime.today().strftime("%Y%m%d")
 
 # Output file pathname 
-output_filename = f"CUMULATO_CONTATTIRFL_BIMESTRE11_12_{date_str}.csv"
+output_filename = f"CUMULATO_CONTATTIRFL_BIMESTRE_11_12_{date_str}.csv"
 output_filepath = os.path.join(output_folder, output_filename)
 
 # Read all CSV files in the folder 
