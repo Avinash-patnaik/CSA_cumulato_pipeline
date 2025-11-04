@@ -4,7 +4,7 @@ import sys
 # ------------------------
 # Define paths
 # ------------------------
-input_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\questionnaire\FOLCATI\bimestre12"
+input_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\conttati\FOLCATI\bimestre1112"
 output_file = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\cumulative output\cumulato.csv"
 
 # List all CSV files
