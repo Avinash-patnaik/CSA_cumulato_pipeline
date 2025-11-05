@@ -5,7 +5,7 @@ import sys
 
 # file paths 
 input_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\conttati\FOLCAPI\ottobre2025"
-output_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\cumulative output\FOLCATI"
+output_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\cumulative output\FOLCAPI"
 
 # Get today date for the output 
 date_str = datetime.today().strftime("%Y%m%d")
