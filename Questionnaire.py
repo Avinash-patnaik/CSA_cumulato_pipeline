@@ -5,7 +5,7 @@ import sys
 import csv # Import csv for the quoting option
 
 # File paths
-input_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\conttati\FOLCATI\bimestre12"
+input_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\questionnaire\FOLCATI\bimestre12"
 output_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\cumulative output\FOLCATI"
 
 # --- Create output folder if it doesn't exist ---
