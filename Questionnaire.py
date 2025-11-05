@@ -5,8 +5,8 @@ import sys
 import csv # Import csv for the quoting option
 
 # File paths
-input_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\questionnaire\FOLCATI\bimestre1112"
-output_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\cumulative output\FOLCATI"
+input_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\questionnaire\FOLCAPI\ottobre2025"
+output_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\cumulative output\FOLCAPI"
 
 # --- Create output folder if it doesn't exist ---
 if not os.path.exists(output_folder):
@@ -16,7 +16,7 @@ if not os.path.exists(output_folder):
 date_str = datetime.today().strftime("%Y%m%d")
 
 # Output filename
-output_filename = f"CUMULATO_DATIRFL_BIMESTRE12_{date_str}.csv"
+output_filename = f"CUMULATO_DATIRFL_OTTOBRE_{date_str}.csv"
 output_filepath = os.path.join(output_folder, output_filename)
 
 # List all CSV files
