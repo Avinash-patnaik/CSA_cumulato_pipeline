@@ -4,14 +4,14 @@ from datetime import datetime
 import sys
 
 # file paths 
-input_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\conttati\FOLCATI\interviste vuote"
-output_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\cumulative output\FOLCATI"
+input_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\conttati\FOLCAPI\bimestre12"
+output_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\cumulative output\FOLCAPI"
 
 # Get today date for the output 
 date_str = datetime.today().strftime("%Y%m%d")
 
 # Output file pathname 
-output_filename = f"CUMULATO_interviste_vuote_{date_str}.csv"
+output_filename = f"CUMULATO_FOLCAPI_BIMESTRE12_{date_str}.csv"
 output_filepath = os.path.join(output_folder, output_filename)
 
 # Read all CSV files in the folder 
