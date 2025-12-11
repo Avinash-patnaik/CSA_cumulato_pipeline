@@ -4,8 +4,8 @@ import sys
 # ------------------------
 # Define paths
 # ------------------------
-input_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\conttati\FOLCAPI\bimestre12"
-output_file = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\cumulative output\conttati_folcapi_bimestre1112_cumulato.csv"
+input_folder = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\questionnaire\FOLCAPI\bimestre 12"
+output_file = r"C:\Users\P.Avinash\Desktop\Data science\Cumulato FOL\data\cumulative output\Datirfl_folcapi_bimestre1112_cumulato.csv"
 
 # List all CSV files
 file_list = [f for f in os.listdir(input_folder) if f.endswith('.csv')]
